@@ -24,6 +24,16 @@
  * @property {episode[]} episodes
  */
 
+/**
+ * @typedef {object} show 
+ * @property {string} id
+ * @property {string} title
+ * @property {season[]} seasons
+ *@property {string} image
+ * @property {string[]} genres
+ * @property {string} updated
+ */
+
 const newList = document.getElementById('newList');
 
 const getPodcasts = async ()=> {
@@ -62,7 +72,7 @@ const getPodcasts = async ()=> {
     const getSinglePodcast = async (id) => {
         newList.innerHTML = `Loading...`;
 
-        const res = await fetch (`https://podcast-api.netlify.app/id/$(id)`);
+        const res = await fetch (`https://podcast-api.netlify.app/id/${id}`);
 
         if (!res.ok) {
             newList.innerHTML = "Could not get podcast";
@@ -75,21 +85,39 @@ const getPodcasts = async ()=> {
 
         const data = await res.json();
 
-        let seasosnsList =  '';
+        let seasonsList =  '';
 
         for (const {title, image} of data.seasons){
-            seasosnsList = `
-            ${seasosnsList}
+            seasonsList = `
+            ${seasonsList}
 
             <li class="list">
             <image class="preview-image" src="${image}">
             ${title}
             </li>
             `
+        }
 
+        newList.innerHTML = `
+        <div class="seasonList">
+        <button class="back-button" data-action="back"> Go back to main page </button>
+        <h2> ${data.title}</h2>
+        <ul> ${seasonsList}</ul> </div>
+        
+        `
+}
+
+document.body.addEventListener('click', (event) => {
+    const {previewButton, action } = event.target.dataset;
+
+    if (action && action === 'back') {
+        getPodcasts();
+        return;
     }
 
-}
+    if (!previewButton) return
+    getSinglePodcast(previewButton);
+})
 
 getPodcasts();
 

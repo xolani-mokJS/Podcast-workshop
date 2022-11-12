@@ -6,6 +6,7 @@
 body{
     margin: 0;
     background-color: black;
+    color: whitesmoke;
 }
 
 h1{
@@ -44,8 +45,18 @@ button{
     font-size: 18px;
 }
 
+.seasonList{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
 
-.preview-image{
-    height: 100px;
-    width: 100px;
+}
+
+.button-back{
+    background-color: aqua;
+    border-radius: 15px;
+    color: black;
+    font-size: 18px;
+    padding: 10px;
 }
