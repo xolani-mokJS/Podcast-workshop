@@ -39,6 +39,7 @@ p{
 }
 
 button{
+    cursor: pointer;
     border: none;
     background-color: whitesmoke;
     margin: 15px;

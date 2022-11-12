@@ -57,7 +57,7 @@ const getPodcasts = async ()=> {
             ${newHtml}
             <li class="list">
             <image class="preview-image" src="${image}">
-            <button data-preview-button ="${id}">${title} <span>(${seasons})</span></button>
+            <button data-preview-button ="${id}">${title} <span>(${seasons} Seasons)</span></button>
             </li>`
     }
 
