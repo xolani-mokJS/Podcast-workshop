@@ -38,8 +38,7 @@ class Component extends LitElement {
 
         if (this.phase === 'list') {
             return html`
-                <div>
-                    <button @click="${loadSingleHandler}">Go to single</button>
+                <div></div>
                     <podcast-view-list></podcast-view-list>
                 </div>
             `
@@ -48,7 +47,6 @@ class Component extends LitElement {
         if (this.phase === 'single') {
             return html`
                 <div>
-                    <button @click="${loadListHandler}">Go to list</button>
                     <podcast-view-single></podcast-view-single>
                 </div>
             `

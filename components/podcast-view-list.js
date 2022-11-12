@@ -1,5 +1,5 @@
-import { html, LitElement, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js'
-import { store } from '../store.js'
+import { html,css, LitElement} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js'
+import { store, connect } from '../store.js'
 
 const MONTHS = [
     'Jan',
@@ -82,7 +82,7 @@ class Component extends LitElement {
          * @type {import('../types').preview[]}
          */
 
-        const preview = this.previews
+        const previews = this.previews
 
         const filteredPreviews = previews.filter(item => {
             if (!this.search) return true
@@ -102,7 +102,7 @@ class Component extends LitElement {
             throw new Error('Invalid sorting')
          })
 
-        const list = preview.map(({ title,id, updated, image,genres, seasons}) => {
+        const list = sortedPreviews.map(({ title,id, updated, image,genres, seasons}) => {
             const clickHandler = () => store.loadSingle(id)
 
             const date = new Date(updated)

@@ -1,5 +1,5 @@
 import { html, LitElement, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js'
-import { store } from '../store.js'
+import { store, connect } from '../store.js'
 
 class Component extends LitElement {
     static get properties() {
@@ -10,19 +10,17 @@ class Component extends LitElement {
 
     constructor() {
         super()
-        const state = store.subscribe(this.storeChange)
-        this.storeChange(state)
+        this.disconnectStore = connect((state) => {
+            if (this.single === state.single) return
+            this.single = state.single
+        })
     }
+
+    disconnectedCallback() { this.disconnectStore() }
 
     /**
      * @param {import('../types').state} state 
      */
-    storeChange = (state) => {
-        if (this.single === state.single) return
-        this.single = state.single
-    }
-
-    disconnectedCallback() { store.unsubscribe(this.storeChange) }
 
     static styles = css `
 
@@ -49,6 +47,38 @@ class Component extends LitElement {
     img{
         width: 100%;
     }
+
+    .season{
+        color: black;
+        background-color: #efefef;
+        width: 600px;
+        text-align: center;
+        padding: 20px;
+        border-radius: 5px;
+        margin:20px;
+    }
+
+    .season-title{
+        font-size: 24px;
+    }
+
+    .episode{
+        padding: 20px;
+    }
+
+    .episode-title{
+        font-size: 20px;
+    }
+
+    button{
+        background-color: red;
+        color: black;
+        font-size:20px;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 20px;
+}
+
     
     `
 
@@ -57,17 +87,45 @@ class Component extends LitElement {
          * @type {import('../types').show}
          */
         const show = this.single
+        if (!show) {
+            return html`<div></div>`
+        }
+        
         const backHandler = () => store.loadList()
 
+        const seasons = show.seasons.map(({ episodes, title }) => {
+            return html`
+                <div class="season">
+                    <h2 class='season-title'>${title}</h2>
+                    ${episodes.map(({ file, title: innerTitle }) => {
+                        return html`
+                            <div>
+                                <hr>
+                                <div class='episode'>
+                                <p class='episode-title'>${innerTitle}</p>
+                                <audio controls>
+                                    <source src=${file}>
+                                </audio>
+                            </div> 
+                            </div>
+                        `
+                    })}
+                </div>
+            `
+        })
+
+      
+        
         return html` 
-        <button @click="${backHandler}">👈 Back</button>
+        <button @click="${backHandler}">Back to all list</button>
             
             <div class='single-show'>
             <img src='${show.image}'>
-            <span> ${show.genre}</span>
+            <span> ${show.genres}</span>
              <h1>${show.title || ''}</h1>
              <p>${show.description}</p>
             </div>
+            ${seasons}
         `
     }
 }

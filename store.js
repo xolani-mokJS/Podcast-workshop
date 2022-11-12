@@ -1,10 +1,10 @@
 
 class Store {
-     /**
+    /**
      * 
      * @param {import('./types').sorting} newSorting 
      */
-      changeSorting(newSorting) {
+    changeSorting(newSorting) {
         this.update({
             sorting: newSorting
         })
@@ -22,7 +22,7 @@ class Store {
 
     async loadList() {
         if (this.state.previews.length > 0) {
-           return this.update({
+            return this.update({
                 single: null,
                 phase: 'list'
             })
@@ -135,7 +135,7 @@ class Store {
  * @param {import('../types').subscription} fn 
  * @returns 
  */
- export const connect = (fn) => {
+export const connect = (fn) => {
     const state = store.subscribe(fn)
     fn(state)
     return () => store.unsubscribe(fn)

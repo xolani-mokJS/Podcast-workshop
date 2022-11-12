@@ -18,6 +18,15 @@ class Component extends LitElement {
         })
     }
 
+    static styles = css `
+            div{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+    `
+
     disconnectedCallback() { this.disconnectStore() }
 
     render() {
