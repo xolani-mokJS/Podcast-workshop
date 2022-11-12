@@ -25,14 +25,21 @@ class Component extends LitElement {
     disconnectedCallback() { store.unsubscribe(this.storeChange) }
 
     static styles = css `
-    .list{
+
+    body{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+    }
+    .single-show{
         color: black;
         list-style: none;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
         justify-content: center;
-        width: 200px;
+        width: 600px;
         margin: 20px;
         padding: 15px;
         background-color: white;
@@ -55,9 +62,11 @@ class Component extends LitElement {
         return html` 
         <button @click="${backHandler}">👈 Back</button>
             
-            <div class='list'>
+            <div class='single-show'>
             <img src='${show.image}'>
-             <h3>${show.title || ''}</h3>
+            <span> ${show.genre}</span>
+             <h1>${show.title || ''}</h1>
+             <p>${show.description}</p>
             </div>
         `
     }
